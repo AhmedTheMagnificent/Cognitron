@@ -1,0 +1,9 @@
+services:
+  ingestion-service:
+    build: .
+    ports:
+      - "3004:3004"
+    env_file: .env 
+    volumes:
+      -  .test_data:/data
+  

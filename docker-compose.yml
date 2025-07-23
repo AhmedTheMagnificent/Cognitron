@@ -1,0 +1,52 @@
+services:
+  mcp-host:
+    build:
+      context: ./services/mcp-host
+    ports:
+      - "3003:3003"
+    env_file: ./services/mcp-host/.env
+    volumes:
+      - ./shared_data:/data 
+    depends_on:
+      - db
+      - ingestion-service
+    # ADD THIS BLOCK:
+    networks:
+      - cognitron_net
+
+  ingestion-service:
+    build:
+      context: ./services/ingestion-service
+    ports:
+      - "3004:3004"
+    env_file: ./services/ingestion-service/.env
+    volumes:
+      - ./shared_data:/data 
+    # ADD THIS BLOCK:
+    networks:
+      - cognitron_net
+
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: cognitron_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # ADD THIS BLOCK:
+    networks:
+      - cognitron_net
+
+volumes:
+  postgres_data:
+  shared_data:
+
+# ADD THIS ENTIRE NEW SECTION AT THE BOTTOM:
+# This formally defines the network that all our services will share.
+networks:
+  cognitron_net:
+    driver: bridge
