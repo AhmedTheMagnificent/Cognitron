@@ -6,14 +6,15 @@ import { MCPContext } from "../types/mcp.types";
 interface WebSocketEvent {
     sessionId: string | null;
     userId: string;
+    courseId: string;
     payload: any;
     tool?: string;
 }
 
 export async function processEvent(event: WebSocketEvent, ws: WebSocket) {
     try {
-        const { sessionId, userId } = event;
-        const context: MCPContext = await PersistentService.loadContext(sessionId, userId);
+        const { sessionId, userId, courseId } = event;
+        const context: MCPContext = await PersistentService.loadContext(sessionId, userId, courseId);
         const { tool, input } = routeToTool(event);
         if (!tool) {
             throw new Error("No appropriate tool found for the request.");

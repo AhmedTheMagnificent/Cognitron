@@ -4,7 +4,7 @@ import { MCPContext } from '../types/mcp.types';
 import { userInfo } from 'os';
 
 export class PersistentService {
-    public static async loadContext(sessionId: string | null, userId: string): Promise<MCPContext> {
+    public static async loadContext(sessionId: string | null, userId: string, courseId: string): Promise<MCPContext> {
         if (sessionId) {
             const contextRecord = await Context.findByPk(sessionId);
             if (contextRecord) {
@@ -15,6 +15,7 @@ export class PersistentService {
         const newSessionId = uuidv4();
         const newContext: MCPContext = {
             sessionId: newSessionId,
+            courseId: courseId,
             userId: userId,
             chat_history: [],
             metadata: { createdAt: new Date().toISOString() }

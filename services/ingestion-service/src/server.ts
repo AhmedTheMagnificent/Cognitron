@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import 'dotenv/config';
-import { EmbeddingService } from './services/embeddings.service.js';
+import { EmbeddingService } from './services/embedding.service.js';
 
 const app = express();
 app.use(express.json());

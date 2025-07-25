@@ -43,7 +43,6 @@ services:
 
 volumes:
   postgres_data:
-  shared_data:
 
 # ADD THIS ENTIRE NEW SECTION AT THE BOTTOM:
 # This formally defines the network that all our services will share.
