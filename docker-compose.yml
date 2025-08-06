@@ -10,7 +10,7 @@ services:
     depends_on:
       - db
       - ingestion-service
-    # ADD THIS BLOCK:
+    # ADD THIS BLOCK TO EXPLICITLY ASSIGN THE NETWORK
     networks:
       - cognitron_net
 
@@ -22,7 +22,7 @@ services:
     env_file: ./services/ingestion-service/.env
     volumes:
       - ./shared_data:/data 
-    # ADD THIS BLOCK:
+    # ADD THIS BLOCK TO EXPLICITLY ASSIGN THE NETWORK
     networks:
       - cognitron_net
 
@@ -37,14 +37,15 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    # ADD THIS BLOCK:
+    # ADD THIS BLOCK TO EXPLICITLY ASSIGN THE NETWORK
     networks:
       - cognitron_net
 
 volumes:
   postgres_data:
+  # Note: bind mounts like 'shared_data' don't need to be declared here
 
-# ADD THIS ENTIRE NEW SECTION AT THE BOTTOM:
+# ADD THIS ENTIRE NEW SECTION AT THE BOTTOM
 # This formally defines the network that all our services will share.
 networks:
   cognitron_net:
